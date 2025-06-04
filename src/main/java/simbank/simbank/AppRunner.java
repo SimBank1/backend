@@ -1,8 +1,10 @@
 package simbank.simbank;
 
+import java.net.http.HttpResponse;
 import java.util.List;
 
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -18,7 +20,7 @@ public class AppRunner implements CommandLineRunner {
     public void run(String... args) throws Exception {
         // Fetch all users from the database
         List<User> users = userService.getAllUsers();
-        userService.createUser();
+        //userService.createUser();
 
         // Check if users are present and print their details
         if (!users.isEmpty()) {
@@ -29,5 +31,7 @@ public class AppRunner implements CommandLineRunner {
         } else {
             System.out.println("No users found in the database.");
         }
+        
+    
     }
 }
