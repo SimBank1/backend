@@ -28,13 +28,13 @@ public class UserController {
     }
   
     @GetMapping("/employees")
-    public List<Client> getAllEmployees() {
+    public List<Employee> getAllEmployees() {
         return userService.getAllEmployees();
     }
 
     // Get user by id
     @GetMapping("/employees/{id}")
-    public Client getEmployeeById(@PathVariable Long id) {
+    public Employee getEmployeeById(@PathVariable Long id) {
         return userService.getEmployeeById(id);
     }
   
