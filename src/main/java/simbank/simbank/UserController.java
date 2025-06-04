@@ -26,12 +26,7 @@ public class UserController {
     public Client getClientById(@PathVariable Long id) {
         return userService.getClientById(id);
     }
-
-    // Create a new user
-    @PostMapping
-    public void createUser(@RequestBody Client user) {
-        //userService.createUser(user);
-    }
+  
     @GetMapping("/employees")
     public List<Client> getAllEmployees() {
         return userService.getAllEmployees();
@@ -42,4 +37,23 @@ public class UserController {
     public Client getEmployeeById(@PathVariable Long id) {
         return userService.getEmployeeById(id);
     }
+  
+    @PostMapping("/login")
+    public Object login(@RequestBody LoginRequest loginRequest) {
+        String username = loginRequest.getUsername();
+        String password = loginRequest.getPassword();
+        return userService.login(username, password);
+    }
+    
+}
+class LoginRequest {
+    private String username;
+    private String password;
+
+    public String getUsername() { return username; }
+    public void setUsername(String username) { this.username = username; }
+
+    public String getPassword() { return password; }
+    public void setPassword(String password) { this.password = password; }
+
 }
