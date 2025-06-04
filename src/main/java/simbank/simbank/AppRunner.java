@@ -1,10 +1,8 @@
 package simbank.simbank;
 
-import java.net.http.HttpResponse;
 import java.util.List;
 
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
 @Component
