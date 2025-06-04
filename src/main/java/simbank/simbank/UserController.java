@@ -1,32 +1,45 @@
 package simbank.simbank;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
 @RestController
-@RequestMapping("/users")
 public class UserController {
 
     @Autowired
     private UserService userService;
 
     // Get all users
-    @GetMapping
-    public List<User> getAllUsers() {
-        return userService.getAllUsers();
+    @GetMapping("/clients")
+    public List<User> getAllClients() {
+        return userService.getAllClients();
     }
 
     // Get user by id
-    @GetMapping("/{id}")
-    public User getUserById(@PathVariable Long id) {
-        return userService.getUserById(id);
+    @GetMapping("/clients/{id}")
+    public User getClientById(@PathVariable Long id) {
+        return userService.getClientById(id);
     }
 
     // Create a new user
     @PostMapping
     public void createUser(@RequestBody User user) {
         //userService.createUser(user);
+    }
+    @GetMapping("/employees")
+    public List<User> getAllEmployees() {
+        return userService.getAllEmployees();
+    }
+
+    // Get user by id
+    @GetMapping("/employees/{id}")
+    public User getEmployeeById(@PathVariable Long id) {
+        return userService.getEmployeeById(id);
     }
 }

@@ -14,14 +14,14 @@ public class UserService {
     private JdbcTemplate jdbcTemplate;
 
     // Get all users
-    public List<User> getAllUsers() {
-        String sql = "SELECT id, first_name, email FROM employees"; // Adjust your table name and columns
+    public List<User> getAllClients() {
+        String sql = "SELECT id, first_name, email FROM clients"; // Adjust your table name and columns
         return jdbcTemplate.query(sql, new RowMapper<User>() {
             @Override
             public User mapRow(java.sql.ResultSet rs, int rowNum) throws java.sql.SQLException {
                 User user = new User();
                 user.setId(rs.getLong("id"));
-                user.setName(rs.getString("first_name"));
+                user.setFirstName(rs.getString("first_name"));
                 user.setEmail(rs.getString("email"));
                 return user;
             }
@@ -35,25 +35,25 @@ public class UserService {
             public User mapRow(java.sql.ResultSet rs, int rowNum) throws java.sql.SQLException {
                 User user = new User();
                 user.setId(rs.getLong("id"));
-                user.setName(rs.getString("name"));
+                user.setFirstName(rs.getString("name"));
                 user.setEmail(rs.getString("email"));
                 return user;
             }
         });
     }
     // Get a user by id
-    public User getUserById(Long id) {
-        String sql = "SELECT id, first_name, email FROM employees WHERE id = ?";
-        return jdbcTemplate.queryForObject(sql, new Object[]{id}, new RowMapper<User>() {
+    public User getClientById(Long id) {
+        String sql = "SELECT id, first_name, email FROM clients WHERE id = ?";
+        return jdbcTemplate.queryForObject(sql, new RowMapper<User>() {
             @Override
             public User mapRow(java.sql.ResultSet rs, int rowNum) throws java.sql.SQLException {
                 User user = new User();
                 user.setId(rs.getLong("id"));
-                user.setName(rs.getString("name"));
+                user.setFirstName(rs.getString("first_name"));  // make sure this matches the column name
                 user.setEmail(rs.getString("email"));
                 return user;
             }
-        });
+        }, id);
     }
 
     // Create a new user
@@ -63,4 +63,33 @@ public class UserService {
                         "\tVALUES ('admin3', 'admin3', ?, ?, 'admin3');";
         jdbcTemplate.update(sql, "b", "h");
     }
+
+    public List<User> getAllEmployees() {
+        String sql = "SELECT id, first_name, email FROM employees"; // Adjust your table name and columns
+        return jdbcTemplate.query(sql, new RowMapper<User>() {
+            @Override
+            public User mapRow(java.sql.ResultSet rs, int rowNum) throws java.sql.SQLException {
+                User user = new User();
+                user.setId(rs.getLong("id"));
+                user.setFirstName(rs.getString("first_name"));
+                user.setEmail(rs.getString("email"));
+                return user;
+            }
+        });
+    }
+    public User getEmployeeById(Long id) {
+        String sql = "SELECT id, first_name, email FROM employees WHERE id = ?";
+        return jdbcTemplate.queryForObject(sql, new RowMapper<User>() {
+            @Override
+            public User mapRow(java.sql.ResultSet rs, int rowNum) throws java.sql.SQLException {
+                User user = new User();
+                user.setId(rs.getLong("id"));
+                user.setFirstName(rs.getString("first_name"));  // make sure this matches the column name
+                user.setEmail(rs.getString("email"));
+                return user;
+            }
+        }, id);
+    }
+
+
 }
