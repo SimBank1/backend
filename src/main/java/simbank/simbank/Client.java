@@ -2,7 +2,7 @@ package simbank.simbank;
 
 import java.time.LocalDate;
 
-public class User {
+public class Client {
 
     private long id;
     private String firstName;
@@ -10,12 +10,6 @@ public class User {
     private String lastName;
     private long personalCode;
 
-    private long iban;
-    private String currency;
-    private long balance;
-    private String type;
-    private String plan;
-    private LocalDate openingDate;
     private String docType;
     private long docNumber;
     private LocalDate docExpiryDate;
@@ -25,8 +19,6 @@ public class User {
     private Address corAddress;
     private boolean marketingConsent;
     private long[] bankAccs;
-    private String username;
-    private String password;
 
     // Getters and setters
 
@@ -68,54 +60,6 @@ public class User {
 
     public void setPersonalCode(long personalCode) {
         this.personalCode = personalCode;
-    }
-
-    public long getIban() {
-        return iban;
-    }
-
-    public void setIban(long iban) {
-        this.iban = iban;
-    }
-
-    public String getCurrency() {
-        return currency;
-    }
-
-    public void setCurrency(String currency) {
-        this.currency = currency;
-    }
-
-    public long getBalance() {
-        return balance;
-    }
-
-    public void setBalance(long balance) {
-        this.balance = balance;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public String getPlan() {
-        return plan;
-    }
-
-    public void setPlan(String plan) {
-        this.plan = plan;
-    }
-
-    public LocalDate getOpeningDate() {
-        return openingDate;
-    }
-
-    public void setOpeningDate(LocalDate openingDate) {
-        this.openingDate = openingDate;
     }
 
     public String getDocType() {
@@ -190,19 +134,4 @@ public class User {
         this.bankAccs = bankAccs;
     }
 
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
 }

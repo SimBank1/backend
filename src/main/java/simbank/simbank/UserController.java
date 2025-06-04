@@ -17,29 +17,29 @@ public class UserController {
 
     // Get all users
     @GetMapping("/clients")
-    public List<User> getAllClients() {
+    public List<Client> getAllClients() {
         return userService.getAllClients();
     }
 
     // Get user by id
     @GetMapping("/clients/{id}")
-    public User getClientById(@PathVariable Long id) {
+    public Client getClientById(@PathVariable Long id) {
         return userService.getClientById(id);
     }
 
     // Create a new user
     @PostMapping
-    public void createUser(@RequestBody User user) {
+    public void createUser(@RequestBody Client user) {
         //userService.createUser(user);
     }
     @GetMapping("/employees")
-    public List<User> getAllEmployees() {
+    public List<Client> getAllEmployees() {
         return userService.getAllEmployees();
     }
 
     // Get user by id
     @GetMapping("/employees/{id}")
-    public User getEmployeeById(@PathVariable Long id) {
+    public Client getEmployeeById(@PathVariable Long id) {
         return userService.getEmployeeById(id);
     }
 }

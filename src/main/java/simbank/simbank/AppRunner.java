@@ -17,13 +17,13 @@ public class AppRunner implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         // Fetch all users from the database
-        List<User> users = userService.getAllClients();
+        List<Client> users = userService.getAllClients();
         //userService.createUser();
 
         // Check if users are present and print their details
         if (!users.isEmpty()) {
             System.out.println("All users in the database:");
-            for (User user : users) {
+            for (Client user : users) {
                 System.out.println("ID: " + user.getId() + ", Name: " + user.getFirstName() + ", Email: " + user.getEmail());
             }
         } else {
