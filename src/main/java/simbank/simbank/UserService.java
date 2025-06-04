@@ -60,7 +60,7 @@ public class UserService {
     public void createUser() {
         String sql = "INSERT INTO public.employees(\n" + //
                         "\tfirst_name, last_name, email, username, password)\n" + //
-                        "\tVALUES ('admin3', 'admin3', 'admin3', 'admin3', 'admin3');";
-        jdbcTemplate.update(sql);
+                        "\tVALUES ('admin3', 'admin3', ?, ?, 'admin3');";
+        jdbcTemplate.update(sql, "b", "h");
     }
 }
