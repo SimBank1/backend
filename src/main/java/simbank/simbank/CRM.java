@@ -37,6 +37,7 @@ public class CRM {
     public LocalDate getDate_of_contact() {
         return date_of_contact;
     }
+    public String toJSON(){
+        return "{\"first_name\":\""+first_name+"\", \"last_name\":\""+last_name+"\", \"personal_code\":\""+personal_code+"\", \"date_of_contact\":\""+date_of_contact+"\", \"contact_type\":\""+contact_type+"\", \"content\":\""+content+"\"}";
+    }
 }
-
-//ResponseStatusException(HttpStatus.NOT_FOUND, "Client not found");
