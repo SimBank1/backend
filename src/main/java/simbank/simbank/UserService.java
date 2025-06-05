@@ -34,9 +34,9 @@ public class UserService {
                 user.setFirstName(rs.getString("first_name"));
                 user.setLastName(rs.getString("last_name"));
                 user.setEmail(rs.getString("email"));
-                user.setPersonalCode(rs.getLong("personal_code"));
+                user.setPersonalCode(rs.getString("personal_code"));
                 user.setDocType(rs.getString("doc_type"));
-                user.setDocNumber(rs.getLong("doc_number"));
+                user.setDocNumber(rs.getString("doc_number"));
                 java.sql.Date sqlDocExpiryDate = rs.getDate("doc_expiry_date");
                 if(sqlDocExpiryDate != null) user.setDocExpiryDate(sqlDocExpiryDate.toLocalDate());
                 java.sql.Date sqlDateOfBirth = rs.getDate("date_of_birth");
@@ -80,9 +80,9 @@ public class UserService {
                 user.setFirstName(rs.getString("first_name"));
                 user.setLastName(rs.getString("last_name"));
                 user.setEmail(rs.getString("email"));
-                user.setPersonalCode(rs.getLong("personal_code"));
+                user.setPersonalCode(rs.getString("personal_code"));
                 user.setDocType(rs.getString("doc_type"));
-                user.setDocNumber(rs.getLong("doc_number"));
+                user.setDocNumber(rs.getString("doc_number"));
                 java.sql.Date sqlDocExpiryDate = rs.getDate("doc_expiry_date");
                 if(sqlDocExpiryDate != null) user.setDocExpiryDate(sqlDocExpiryDate.toLocalDate());
                 java.sql.Date sqlDateOfBirth = rs.getDate("date_of_birth");
@@ -164,7 +164,7 @@ public class UserService {
             BankAcc account = new BankAcc();
             account.setId(rs.getLong("id"));
             account.setFirstName(rs.getString("first_name"));
-            account.setPersonalCode(rs.getLong("personal_code"));
+            account.setPersonalCode(rs.getString("personal_code"));
             account.setIban(rs.getLong("iban"));
             account.setCurrency(rs.getString("currency"));
             account.setBalance(rs.getLong("balance"));
@@ -186,7 +186,7 @@ public class UserService {
             BankAcc account = new BankAcc();
             account.setId(rs.getLong("id"));
             account.setFirstName(rs.getString("first_name"));
-            account.setPersonalCode(rs.getLong("personal_code"));
+            account.setPersonalCode(rs.getString("personal_code"));
             account.setIban(rs.getLong("iban"));
             account.setCurrency(rs.getString("currency"));
             account.setBalance(rs.getLong("balance"));
