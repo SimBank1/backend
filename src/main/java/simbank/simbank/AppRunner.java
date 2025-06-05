@@ -29,7 +29,12 @@ public class AppRunner implements CommandLineRunner {
         } else {
             System.out.println("No users found in the database.");
         }
-        
-    
+
+        Address a = new Address();
+        a.setApartment("a");
+        a.setCountry("slov");
+        System.out.println("a"+a.toJson());
+
     }
+    
 }

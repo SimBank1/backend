@@ -14,7 +14,7 @@ public class SessionController {
     @GetMapping("/create")
     public String createSession(HttpSession session) {
         // Set a session attribute (e.g., username)
-        session.setAttribute("username", "JohnDoe");
+        session.setAttribute("username", "admin");
 
         // Retrieve and return the session ID
         String sessionId = session.getId();
@@ -34,6 +34,19 @@ public class SessionController {
 
         // Return session data to the client
         return "Session found with username: " + username;
+    }
+
+    public String getSessionNoBS(HttpSession session) {
+        // Get the session attribute (username)
+        String username = (String) session.getAttribute("username");
+
+        // If no session exists, return an error message
+        if (username == null) {
+            return "404";
+        }
+
+        // Return session data to the client
+        return username;
     }
 
     // Invalidate the sessiongit add .GetExchange
