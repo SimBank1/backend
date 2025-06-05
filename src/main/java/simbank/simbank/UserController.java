@@ -1,10 +1,12 @@
 package simbank.simbank;
 
-import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -23,15 +25,12 @@ public class UserController {
     public String getMethodName(@RequestParam String param) {
         return new String();
     }
-   
+    
+    @GetMapping("/clients")
     public List<Client> getAllClients() {
-        return userService.getAllClients();    
+        return userService.getAllClients();
     }
 
-    public List<Employee> getAllEmployees() {
-        return userService.getAllEmployees();
-    }
-    
     @GetMapping("/rand")
     public EmployeesAndClientsResponse getAll() {
         ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
@@ -40,18 +39,23 @@ public class UserController {
         if(ctrl.getSessionNoBS(session).equals("admin")){
             resp.setEmployees(getAllEmployees());
         }
-        resp.setClients(getAllClients());
+        if(!ctrl.getSessionNoBS(session).equals("404")){
+            resp.setClients(getAllClients());
+        }
         return resp;
     }
     
-    /*
+
     // Get user by id
     @GetMapping("/clients/{id}")
     public Client getClientById(@PathVariable Long id) {
         return userService.getClientById(id);
     }
   
-    
+    @GetMapping("/employees")
+    public List<Employee> getAllEmployees() {
+        return userService.getAllEmployees();
+    }
 
     // Get user by id
     @GetMapping("/employees/{id}")
@@ -65,12 +69,6 @@ public class UserController {
         String password = loginRequest.getPassword();
         return userService.login(username, password);
     }
-    @PostMapping("/createCRM")
-    public Object createCRM(@RequestBody CRM crm) {
-        return userService.createCRM(crm);
-    }
-    }*/
-
     
 }
 class LoginRequest {
