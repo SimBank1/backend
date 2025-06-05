@@ -199,43 +199,6 @@ public class UserService {
         }, id);
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     public Object login(String username, String password){
         String sql = "SELECT password FROM employees WHERE username = ?";
         String corectPass = "";

@@ -7,19 +7,42 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+
+import jakarta.servlet.http.HttpSession;
+
 
 @RestController
 public class UserController {
 
     @Autowired
     private UserService userService;
-
+    private SessionController ctrl = new SessionController();
     // Get all users
+    public String getMethodName(@RequestParam String param) {
+        return new String();
+    }
+    
     @GetMapping("/clients")
     public List<Client> getAllClients() {
         return userService.getAllClients();
     }
+
+    @GetMapping("/rand")
+    public EmployeesAndClientsResponse getAll() {
+        ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
+        HttpSession session = attr.getRequest().getSession(true); // true to create if not exist
+        EmployeesAndClientsResponse resp = new EmployeesAndClientsResponse();
+        if(ctrl.getSessionNoBS(session).equals("admin")){
+            resp.setEmployees(getAllEmployees());
+        }
+        resp.setClients(getAllClients());
+        return resp;
+    }
+    
 
     // Get user by id
     @GetMapping("/clients/{id}")
@@ -56,4 +79,25 @@ class LoginRequest {
     public String getPassword() { return password; }
     public void setPassword(String password) { this.password = password; }
 
+}
+
+class EmployeesAndClientsResponse {
+    private List<Employee> employees;
+    private List<Client> clients;
+
+    public List<Employee> getEmployees() {
+        return employees;
+    }
+
+    public void setEmployees(List<Employee> employees) {
+        this.employees = employees;
+    }
+
+    public List<Client> getClients() {
+        return clients;
+    }
+
+    public void setClients(List<Client> clients) {
+        this.clients = clients;
+    }
 }
