@@ -13,9 +13,8 @@ import jakarta.servlet.http.HttpSession;
 
 import org.springframework.jdbc.core.RowMapper;
 
-import java.util.List;
 import java.time.LocalDate;
-
+import java.util.List;
 
 @Service
 public class UserService {
@@ -67,7 +66,7 @@ public class UserService {
                 return user;
             }
         });
-}
+    }
 
     // Get a user by id
     public Client getClientById(Long id) {
@@ -115,11 +114,9 @@ public class UserService {
         }, id);
     }
 
-    public void createUser() {
-        String sql = "INSERT INTO public.employees(\n" + //
-                        "\tfirst_name, last_name, email, username, password)\n" + //
-                        "\tVALUES ('admin3', 'admin3', ?, ?, 'admin3');";
-        jdbcTemplate.update(sql, "b", "h");
+    public void createClient(String firstName, String email, String lastName, String personalCode, String docType, String docNumber, LocalDate docExpiryDate, LocalDate dateOfBirth, String phoneNumber, Address regAddress, Address corAddress, boolean marketingConsent, long[] bankAccs) {
+        String sql = "INSERT INTO clients (first_name, last_name, email, personal_code, doc_type, doc_number, doc_expiry_date, date_of_birth, phone_number, marketin_consent, reg_address, cor_address, bank_accs) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        jdbcTemplate.update(sql, firstName, email, lastName, personalCode, docType, docNumber, docExpiryDate, dateOfBirth, phoneNumber, regAddress, corAddress, marketingConsent, bankAccs);
     }
 
     public List<Employee> getAllEmployees() {
@@ -155,6 +152,11 @@ public class UserService {
                 return emp;
             }
         }, id);
+    }
+
+    public void createEmployee(String firstName, String lastName, String email, String username, String password) {
+        String sql = "INSERT INTO clients (first_name, last_name, email, username, password) VALUES (?, ?, ?, ?, ?)";
+        jdbcTemplate.update(sql, firstName, lastName, email, username, password);
     }
 
     public List<BankAcc> getAllBankAccounts() {
@@ -213,24 +215,28 @@ public class UserService {
         jdbcTemplate.update(sql, crm.toJSON(), crm.getPersonal_code());
         return crm;
     }
-
+    public void createbankAcc(String firstName, String personalCode, long iban, String currency, long balance, String type, String plan, LocalDate openingDate) {
+        String sql = "INSERT INTO accounts (first_name, personal_code, iban, currency, balance, type, plan, opening_date) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        jdbcTemplate.update(sql, firstName, personalCode, iban, currency, balance, type, plan, openingDate);
+    }
     public Object login(String username, String password){
         String sql = "SELECT password FROM employees WHERE username = ?";
         String corectPass = "";
         try {
             corectPass = jdbcTemplate.queryForObject(sql, new Object[]{username}, String.class);
         } catch (org.springframework.dao.EmptyResultDataAccessException e) {
-            return new Err("Invalid credentials", false);
+            return new Err("Invalid credentials");
         }
         if(corectPass.equals(password)){
             ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
             HttpSession session = attr.getRequest().getSession(true); // true to create if not exist
+            session.setMaxInactiveInterval(7000);
             String token = createSession(session, username);
             String mode = (username.equals("admin"))?"admin":"employee";
-            LoginData a = new LoginData(mode);
+            LoginData a = new LoginData(mode, token);
             return a;
         }
-        return new Err("Invalid credentials", false);
+        return new Err("Invalid credentials");
     }
 
     public String createSession(HttpSession session, String username) {
@@ -244,15 +250,10 @@ public class UserService {
 }
 class Err{
     String error;
-    boolean timeout;
-    public Err(String error, boolean timeout){
+    public Err(String error){
         this.error = error;
-        this.timeout = timeout;
     }
     public String getError(){
         return error;
-    }
-    public boolean getTimeout(){
-        return timeout;
     }
 }
