@@ -202,7 +202,7 @@ public class UserService {
             return account;
         }, id);
     }
-    public void createAccount(String firstName, String personalCode, long iban, String currency, long balance, String type, String plan, LocalDate openingDate) {
+    public void createbankAcc(String firstName, String personalCode, long iban, String currency, long balance, String type, String plan, LocalDate openingDate) {
         String sql = "INSERT INTO accounts (first_name, personal_code, iban, currency, balance, type, plan, opening_date) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         jdbcTemplate.update(sql, firstName, personalCode, iban, currency, balance, type, plan, openingDate);
     }
