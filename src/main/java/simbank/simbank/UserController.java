@@ -1,5 +1,6 @@
 package simbank.simbank;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,6 +69,10 @@ public class UserController {
         String username = loginRequest.getUsername();
         String password = loginRequest.getPassword();
         return userService.login(username, password);
+    }
+    @PostMapping("/createCRM")
+    public Object createCRM(@RequestBody CRM crm) {
+        return userService.createCRM(crm);
     }
     
 }
