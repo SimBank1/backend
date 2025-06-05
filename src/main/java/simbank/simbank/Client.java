@@ -133,5 +133,20 @@ public class Client {
     public void setBankAccs(long[] bankAccs) {
         this.bankAccs = bankAccs;
     }
-
+    public Client(){};
+    public Client(String firstName, String email, String lastName, String personalCode, String docType, String docNumber, LocalDate docExpiryDate, LocalDate dateOfBirth, String phoneNumber, Address regAddress, Address corAddress, boolean marketingConsent, long[] bankAccs) {
+        this.firstName = firstName;
+        this.email = email;
+        this.lastName = lastName;
+        this.personalCode = personalCode;
+        this.docType = docType;
+        this.docNumber = docNumber;
+        this.docExpiryDate = docExpiryDate;
+        this.dateOfBirth = dateOfBirth;
+        this.phoneNumber = phoneNumber;
+        this.regAddress = regAddress;
+        this.corAddress = corAddress;
+        this.marketingConsent = marketingConsent;
+        this.bankAccs = bankAccs;
+    }
 }
