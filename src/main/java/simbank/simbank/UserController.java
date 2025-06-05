@@ -39,7 +39,9 @@ public class UserController {
         if(ctrl.getSessionNoBS(session).equals("admin")){
             resp.setEmployees(getAllEmployees());
         }
-        resp.setClients(getAllClients());
+        if(!ctrl.getSessionNoBS(session).equals("404")){
+            resp.setClients(getAllClients());
+        }
         return resp;
     }
     
