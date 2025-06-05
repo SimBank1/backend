@@ -210,6 +210,7 @@ public class UserService {
         if(corectPass.equals(password)){
             ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
             HttpSession session = attr.getRequest().getSession(true); // true to create if not exist
+            session.setMaxInactiveInterval(7000);
             String token = createSession(session, username);
             String mode = (username.equals("admin"))?"admin":"employee";
             LoginData a = new LoginData(mode, token);
