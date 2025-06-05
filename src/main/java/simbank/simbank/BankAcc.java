@@ -5,7 +5,7 @@ import java.time.LocalDate;
 public class BankAcc {
     private long id;
     private String firstName;
-    private long personalCode;
+    private String personalCode;
     private long iban;
     private String currency;
     private long balance;
@@ -30,10 +30,10 @@ public class BankAcc {
     }
 
     // Getter and Setter for personalCode
-    public long getPersonalCode() {
+    public String getPersonalCode() {
         return personalCode;
     }
-    public void setPersonalCode(long personalCode) {
+    public void setPersonalCode(String personalCode) {
         this.personalCode = personalCode;
     }
 

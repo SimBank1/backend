@@ -8,10 +8,10 @@ public class Client {
     private String firstName;
     private String email;
     private String lastName;
-    private long personalCode;
+    private String personalCode;
 
     private String docType;
-    private long docNumber;
+    private String docNumber;
     private LocalDate docExpiryDate;
     private LocalDate dateOfBirth;
     private String phoneNumber;
@@ -54,11 +54,11 @@ public class Client {
         this.lastName = lastName;
     }
 
-    public long getPersonalCode() {
+    public String getPersonalCode() {
         return personalCode;
     }
 
-    public void setPersonalCode(long personalCode) {
+    public void setPersonalCode(String personalCode) {
         this.personalCode = personalCode;
     }
 
@@ -70,11 +70,11 @@ public class Client {
         this.docType = docType;
     }
 
-    public long getDocNumber() {
+    public String getDocNumber() {
         return docNumber;
     }
 
-    public void setDocNumber(long docNumber) {
+    public void setDocNumber(String docNumber) {
         this.docNumber = docNumber;
     }
 
