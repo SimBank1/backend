@@ -208,9 +208,9 @@ public class UserService {
             return new Err("timeout", true);
         }
         String sql = "UPDATE clients\n" + //
-                    "\tSET CRM = jsonb_array_append(CRM, ?)\n" + //
+                    "\tSET crm = crm || ?::jsonb\n" + //
                     "\tWHERE personal_code=?;";
-        jdbcTemplate.update(sql, crm, crm.getPersonal_code());
+        jdbcTemplate.update(sql, crm.toJSON(), crm.getPersonal_code());
         return crm;
     }
 
