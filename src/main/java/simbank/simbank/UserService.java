@@ -14,6 +14,8 @@ import jakarta.servlet.http.HttpSession;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.util.List;
+import java.time.LocalDate;
+
 
 @Service
 public class UserService {
@@ -198,6 +200,19 @@ public class UserService {
             return account;
         }, id);
     }
+
+    public Object createCRM(CRM crm){
+        ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
+        HttpSession session = attr.getRequest().getSession(true); // true to create if not exist
+        if(((String) session.getAttribute("username")) == null){
+            return new Err("timeout", true);
+        }
+        String sql = "UPDATE clients\n" + //
+                    "\tSET CRM = jsonb_array_append(CRM, ?)\n" + //
+                    "\tWHERE personal_code=?;";
+        jdbcTemplate.update(sql, crm, crm.getPersonal_code());
+        return crm;
+    }
     
     public Object login(String username, String password){
         String sql = "SELECT password FROM employees WHERE username = ?";
@@ -205,17 +220,17 @@ public class UserService {
         try {
             corectPass = jdbcTemplate.queryForObject(sql, new Object[]{username}, String.class);
         } catch (org.springframework.dao.EmptyResultDataAccessException e) {
-            return new Err("Invalid credentials");
+            return new Err("Invalid credentials", false);
         }
         if(corectPass.equals(password)){
             ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
             HttpSession session = attr.getRequest().getSession(true); // true to create if not exist
             String token = createSession(session, username);
             String mode = (username.equals("admin"))?"admin":"employee";
-            LoginData a = new LoginData(mode, token);
+            LoginData a = new LoginData(mode);
             return a;
         }
-        return new Err("Invalid credentials");
+        return new Err("Invalid credentials", false);
     }
 
     public String createSession(HttpSession session, String username) {
@@ -229,10 +244,15 @@ public class UserService {
 }
 class Err{
     String error;
-    public Err(String error){
+    boolean timeout;
+    public Err(String error, boolean timeout){
         this.error = error;
+        this.timeout = timeout;
     }
     public String getError(){
         return error;
+    }
+    public boolean getTimeout(){
+        return timeout;
     }
 }

@@ -4,9 +4,9 @@ import java.time.LocalDate;
 
 public class CRM {
     private String first_name, last_name, contact_type, content;
-    private long personal_code;
+    private String personal_code;
     private LocalDate date_of_contact;
-    public CRM(String first_name, String last_name, long personal_code, LocalDate date_of_contact, String contact_type, String content){
+    public CRM(String first_name, String last_name, String personal_code, LocalDate date_of_contact, String contact_type, String content){
         this.first_name = first_name;
         this.last_name = last_name;
         this.personal_code = personal_code;
@@ -30,7 +30,7 @@ public class CRM {
         return content;
     }
     
-    public long getPersonal_code() {
+    public String getPersonal_code() {
         return personal_code;
     }
     
@@ -38,5 +38,3 @@ public class CRM {
         return date_of_contact;
     }
 }
-
-//ResponseStatusException(HttpStatus.NOT_FOUND, "Client not found");
