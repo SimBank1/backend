@@ -162,7 +162,7 @@ public class UserService {
             BankAcc account = new BankAcc();
             account.setId(rs.getLong("id"));
             account.setFirstName(rs.getString("first_name"));
-            account.setPersonalCode(rs.getLong("personal_code"));
+            account.setPersonalCode(rs.getString("personal_code"));
             account.setIban(rs.getLong("iban"));
             account.setCurrency(rs.getString("currency"));
             account.setBalance(rs.getLong("balance"));
@@ -184,7 +184,7 @@ public class UserService {
             BankAcc account = new BankAcc();
             account.setId(rs.getLong("id"));
             account.setFirstName(rs.getString("first_name"));
-            account.setPersonalCode(rs.getLong("personal_code"));
+            account.setPersonalCode(rs.getString("personal_code"));
             account.setIban(rs.getLong("iban"));
             account.setCurrency(rs.getString("currency"));
             account.setBalance(rs.getLong("balance"));
