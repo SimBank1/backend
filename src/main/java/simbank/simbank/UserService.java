@@ -225,7 +225,7 @@ public class UserService {
         try {
             corectPass = jdbcTemplate.queryForObject(sql, new Object[]{username}, String.class);
         } catch (org.springframework.dao.EmptyResultDataAccessException e) {
-            return new Err("Invalid credentials");
+            return new Err("Invalid credentials", false);
         }
         if(corectPass.equals(password)){
             ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
@@ -236,7 +236,7 @@ public class UserService {
             LoginData a = new LoginData(mode, token);
             return a;
         }
-        return new Err("Invalid credentials");
+        return new Err("Invalid credentials", false);
     }
 
     public String createSession(HttpSession session, String username) {
@@ -250,8 +250,10 @@ public class UserService {
 }
 class Err{
     String error;
-    public Err(String error){
+    boolean timeut;
+    public Err(String error, boolean timeut){
         this.error = error;
+        this.timeut = timeut;
     }
     public String getError(){
         return error;
