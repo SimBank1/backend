@@ -215,16 +215,21 @@ public class UserService {
         jdbcTemplate.update(sql, crm.toJSON(), crm.getPersonal_code());
         return crm;
     }
-    public Object editCRM(CRM crm){
+    public Object editCRM(CRM crm,int id){
         ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
         HttpSession session = attr.getRequest().getSession(true); // true to create if not exist
         if(((String) session.getAttribute("username")) == null){
             return new Err("timeout", true);
         }
+
         String sql = "UPDATE clients\n" + //
-                    "\tSET crm = crm || ?::jsonb\n" + //
+                    "\tSET crm = jsonb_set(\n" + //
+                    "\tjsonb_set(\n" + //
+                    "\t jsonb_set(\n" + //
+                    "\tcrm, ARRAY['1', 'age'], '28'::jsonb),\n" + //
+                    "\tARRAY['2', 'name'], '\"Robert\"'::jsonb), ARRAY['0', 'age'], '32'::jsonb)\n" + //
                     "\tWHERE personal_code=?;";
-        jdbcTemplate.update(sql, crm.toJSON(), crm.getPersonal_code());
+        jdbcTemplate.update(sql, crm.toJSON(), id);
         return crm;
     }
 
