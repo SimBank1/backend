@@ -115,8 +115,8 @@ public class UserService {
     }
 
     public void createClient(Client client) {
-        String sql = "INSERT INTO clients (first_name, last_name, email, personal_code, doc_type, doc_number, doc_expiry_date, date_of_birth, phone_number, marketin_consent, reg_address, cor_address, bank_accs) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?::jsonb, ?::jsonb, ?)";
-        jdbcTemplate.update(sql, client.getFirstName(), client.getLastName(), client.getEmail(), client.getPersonalCode(), client.getDocType(), client.getDocNumber(), client.getDocExpiryDate(), client.getDateOfBirth(), client.getPhoneNumber(), client.getMarketingConsent(), client.getRegAddress().toJSON(), client.getCorAddress().toJSON(), client.getBankAccs());
+        String sql = "INSERT INTO clients (first_name, last_name, email, personal_code, doc_type, doc_number, doc_expiry_date, date_of_birth, phone_number, marketin_consent, reg_address, cor_address, other_bank_accounts) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?::jsonb, ?::jsonb, ?)";
+        jdbcTemplate.update(sql, client.getFirstName(), client.getLastName(), client.getEmail(), client.getPersonalCode(), client.getDocType(), client.getDocNumber(), client.getDocExpiryDate(), client.getDateOfBirth(), client.getPhoneNumber(), client.getMarketingConsent(), client.getRegAddress().toJSON(), client.getCorAddress().toJSON(), client.getOther_bank_accounts());
     }
 
     public List<Employee> getAllEmployees() {
