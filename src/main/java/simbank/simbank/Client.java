@@ -1,6 +1,7 @@
 package simbank.simbank;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public class Client {
 
@@ -18,7 +19,8 @@ public class Client {
     private Address reg_address;
     private Address cor_address;
     private boolean marketing_consent;
-    private long[] bank_accs;
+    List<CRM> crm;
+    List<BankAcc> bank_accs;
     private String other_bank_accounts;
 
     // Getters and setters
@@ -127,13 +129,6 @@ public class Client {
         this.marketing_consent = marketing_consent;
     }
 
-    public long[] getBankAccs() {
-        return bank_accs;
-    }
-
-    public void setBank_accs(long[] bank_accs) {
-        this.bank_accs = bank_accs;
-    }
     public String getOther_bank_accounts() {
         return other_bank_accounts;
     }
@@ -141,6 +136,12 @@ public class Client {
     public void setOther_bank_accounts(String other_bank_accounts) {
         this.other_bank_accounts = other_bank_accounts;
     }
+    public void addBankAccount(BankAcc a){
+        bank_accs.add(a);
+    }
+    public void addCRM(CRM a){
+        crm.add(a);
+    } 
     public Client(){};
     public Client(String first_name, String email, String last_name, String personal_code, String doc_type, String doc_number, LocalDate doc_expiry_date, LocalDate date_of_birth, String phone_number, Address reg_address, Address cor_address, boolean marketing_consent, long[] bank_accs) {
         this.first_name = first_name;
@@ -155,6 +156,5 @@ public class Client {
         this.reg_address = reg_address;
         this.cor_address = cor_address;
         this.marketing_consent = marketing_consent;
-        this.bank_accs = bank_accs;
     }
 }

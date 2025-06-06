@@ -5,6 +5,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -24,7 +25,7 @@ public class UserService {
 
     // Get all users
     public List<Client> getAllClients() {
-        String sql = "SELECT id, first_name, last_name, email, personal_code, doc_type, doc_number, doc_expiry_date, date_of_birth, phone_number, marketin_consent, reg_address, cor_address, bank_accs FROM clients"; // Adjust your table name and columns
+        String sql = "SELECT id, first_name, last_name, email, personal_code, doc_type, doc_number, doc_expiry_date, date_of_birth, phone_number, marketin_consent, reg_address, cor_address, bank_accs, crm, other_bank_accounts FROM clients"; // Adjust your table name and columns
         return jdbcTemplate.query(sql, new RowMapper<Client>() {
             @Override
             public Client mapRow(java.sql.ResultSet rs, int rowNum) throws java.sql.SQLException {
@@ -41,6 +42,7 @@ public class UserService {
                 java.sql.Date sqlDateOfBirth = rs.getDate("date_of_birth");
                 if(sqlDateOfBirth != null) user.setDate_of_birth(sqlDateOfBirth.toLocalDate());
                 user.setPhone_number(rs.getString("phone_number"));
+                user.setOther_bank_accounts(rs.getString("other_bank_accounts"));
                 user.setMarketing_consent(rs.getBoolean("marketin_consent"));
                 
                 ObjectMapper objectMapper = new ObjectMapper();
@@ -56,6 +58,20 @@ public class UserService {
                     if (corAddressJson != null) {
                         Address corAddress = objectMapper.readValue(corAddressJson, Address.class);
                         user.setCor_address(corAddress);
+                    }
+                    JsonNode root = objectMapper.readTree(rs.getString("bank_accs"));
+                    for (JsonNode item : root) {
+                        if (item != null) {
+                            BankAcc bank_acc = objectMapper.treeToValue(item, BankAcc.class);
+                            user.addBankAccount(bank_acc);
+                        }
+                    }
+                    JsonNode root1 = objectMapper.readTree(rs.getString("crm"));
+                    for (JsonNode item : root1) {
+                        if (item != null) {
+                            BankAcc crm = objectMapper.treeToValue(item, BankAcc.class);
+                            user.addBankAccount(crm);
+                        }
                     }
                 } catch (JsonProcessingException e) {
                     // Handle the exception:
@@ -104,9 +120,6 @@ public class UserService {
                         user.setCor_address(corAddress);
                     }
                 } catch (JsonProcessingException e) {
-                    // Handle the exception:
-                    // - log the error
-                    // - optionally throw a runtime exception if you want to fail fast
                     throw new RuntimeException("Failed to parse address JSON", e);
                 }
                 return user;
@@ -114,9 +127,15 @@ public class UserService {
         }, id);
     }
 
-    public void createClient(Client client) {
+    public Object createClient(Client client){
+        ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
+        HttpSession session = attr.getRequest().getSession(true); // true to create if not exist
+        if(((String) session.getAttribute("username")) == null){
+            return new Err("timeout", true);
+        }
         String sql = "INSERT INTO clients (first_name, last_name, email, personal_code, doc_type, doc_number, doc_expiry_date, date_of_birth, phone_number, marketin_consent, reg_address, cor_address, other_bank_accounts) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?::jsonb, ?::jsonb, ?)";
         jdbcTemplate.update(sql, client.getFirstName(), client.getLastName(), client.getEmail(), client.getPersonalCode(), client.getDocType(), client.getDocNumber(), client.getDocExpiryDate(), client.getDateOfBirth(), client.getPhoneNumber(), client.getMarketingConsent(), client.getRegAddress().toJSON(), client.getCorAddress().toJSON(), client.getOther_bank_accounts());
+        return "";
     }
 
     public List<Employee> getAllEmployees() {
@@ -159,50 +178,6 @@ public class UserService {
         jdbcTemplate.update(sql, firstName, lastName, email, username, password);
     }
 
-    public List<BankAcc> getAllBankAccounts() {
-        String sql = "SELECT id, first_name, personal_code, iban, currency, balance, type, plan, opening_date FROM bank_accounts";
-    
-        return jdbcTemplate.query(sql, (rs, rowNum) -> {
-            BankAcc account = new BankAcc();
-            account.setId(rs.getLong("id"));
-            account.setFirst_name(rs.getString("first_name"));
-            account.setPersonal_code(rs.getString("personal_code"));
-            account.setIban(rs.getLong("iban"));
-            account.setCurrency(rs.getString("currency"));
-            account.setBalance(rs.getLong("balance"));
-            account.setType(rs.getString("type"));
-            account.setPlan(rs.getString("plan"));
-    
-            java.sql.Date sqlDate = rs.getDate("opening_date");
-            if (sqlDate != null) {
-                account.setOpening_date(sqlDate.toLocalDate());
-            }
-            return account;
-        });
-    }
-
-    public BankAcc getBankAccountById(long id) {
-        String sql = "SELECT id, first_name, personal_code, iban, currency, balance, type, plan, opening_date FROM bank_accounts WHERE id = ?";
-    
-        return jdbcTemplate.queryForObject(sql, (rs, rowNum) -> {
-            BankAcc account = new BankAcc();
-            account.setId(rs.getLong("id"));
-            account.setFirst_name(rs.getString("first_name"));
-            account.setPersonal_code(rs.getString("personal_code"));
-            account.setIban(rs.getLong("iban"));
-            account.setCurrency(rs.getString("currency"));
-            account.setBalance(rs.getLong("balance"));
-            account.setType(rs.getString("type"));
-            account.setPlan(rs.getString("plan"));
-    
-            java.sql.Date sqlOpeningDate = rs.getDate("opening_date");
-            if (sqlOpeningDate != null) {
-                account.setOpening_date(sqlOpeningDate.toLocalDate());
-            }
-            return account;
-        }, id);
-    }
-
     public Object createCRM(CRM crm){
         ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
         HttpSession session = attr.getRequest().getSession(true); // true to create if not exist
@@ -215,6 +190,30 @@ public class UserService {
         jdbcTemplate.update(sql, crm.toJSON(), crm.getPersonal_code());
         return crm;
     }
+
+    public Object createBankAcc(BankAcc bankAccount){
+        ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
+        HttpSession session = attr.getRequest().getSession(true); // true to create if not exist
+        if(((String) session.getAttribute("username")) == null){
+            return new Err("timeout", true);
+        }
+
+        String sql = """
+            UPDATE clients
+            SET bank_accs = 
+                CASE 
+                    WHEN jsonb_typeof(bank_accs) = 'array' THEN bank_accs || ?::jsonb
+                    ELSE jsonb_build_array(?::jsonb)
+                END
+            WHERE personal_code = ?;
+            """;
+
+    String bankAccountJson = bankAccount.toJSON(); // Assumes toJSON() returns proper JSON representation
+    jdbcTemplate.update(sql, bankAccountJson, bankAccountJson, bankAccount.get_personal_code());
+
+    return bankAccount;
+    }
+
     public Object editCRM(CRM crm){
         ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
         HttpSession session = attr.getRequest().getSession(true); // true to create if not exist
@@ -228,11 +227,6 @@ public class UserService {
         return crm;
     }
 
-
-    public void createbankAcc(String firstName, String personalCode, long iban, String currency, long balance, String type, String plan, LocalDate openingDate) {
-        String sql = "INSERT INTO accounts (first_name, personal_code, iban, currency, balance, type, plan, opening_date) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-        jdbcTemplate.update(sql, firstName, personalCode, iban, currency, balance, type, plan, openingDate);
-    }
     public Object login(String username, String password){
         String sql = "SELECT password FROM employees WHERE username = ?";
         String corectPass = "";

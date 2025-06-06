@@ -30,7 +30,7 @@ public class BankAcc {
     }
 
     // Getter and Setter for personalCode
-    public String getPersonalCode() {
+    public String get_personal_code() {
         return personal_code;
     }
     public void setPersonal_code(String personalCode) {
