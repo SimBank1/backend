@@ -54,6 +54,10 @@ public class UserController {
     public Object createCRM(@RequestBody CRM crm) {
         return userService.createCRM(crm);
     }
+    @PostMapping("/editCRM")
+    public Object editCRM(@RequestBody CRM crm) {
+        return userService.editCRM(crm);
+    }
 
     /*
     // Get user by id
