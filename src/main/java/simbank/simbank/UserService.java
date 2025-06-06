@@ -60,15 +60,17 @@ public class UserService {
                         user.setCor_address(corAddress);
                     }
                     JsonNode root = objectMapper.readTree(rs.getString("bank_accs"));
-                    for (JsonNode item : root) {
-                        if (item != null) {
-                            BankAcc bank_acc = objectMapper.treeToValue(item, BankAcc.class);
-                            user.addBankAccount(bank_acc);
+
+                    if (root != null) {
+                        for (JsonNode item : root) {
+                                BankAcc bank_acc = objectMapper.treeToValue(item, BankAcc.class);
+                                user.addBankAccount(bank_acc);
                         }
                     }
                     JsonNode root1 = objectMapper.readTree(rs.getString("crm"));
-                    for (JsonNode item : root1) {
-                        if (item != null) {
+
+                    if (root1 != null) {
+                        for (JsonNode item : root1) {
                             BankAcc crm = objectMapper.treeToValue(item, BankAcc.class);
                             user.addBankAccount(crm);
                         }
