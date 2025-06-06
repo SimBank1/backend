@@ -59,14 +59,19 @@ public class UserService {
                         Address corAddress = objectMapper.readValue(corAddressJson, Address.class);
                         user.setCor_address(corAddress);
                     }
-                    JsonNode root = objectMapper.readTree(rs.getString("bank_accs"));
 
-                    if (root != null) {
-                        for (JsonNode item : root) {
-                                BankAcc bank_acc = objectMapper.treeToValue(item, BankAcc.class);
-                                user.addBankAccount(bank_acc);
+                        JsonNode root = objectMapper.readTree(rs.getString("bank_accs"));
+    
+                        if (root != null) {
+                            for (JsonNode item : root) {
+                                    BankAcc bank_acc = objectMapper.treeToValue(item, BankAcc.class);
+                                    user.addBankAccount(bank_acc);
+                            }
                         }
-                    }
+                    
+
+                    System.out.println("a");
+
                     JsonNode root1 = objectMapper.readTree(rs.getString("crm"));
 
                     if (root1 != null) {
