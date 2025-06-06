@@ -5,20 +5,20 @@ import java.time.LocalDate;
 public class Client {
 
     private long id;
-    private String firstName;
+    private String first_name;
     private String email;
-    private String lastName;
-    private String personalCode;
+    private String last_name;
+    private String personal_code;
 
-    private String docType;
-    private String docNumber;
-    private LocalDate docExpiryDate;
-    private LocalDate dateOfBirth;
-    private String phoneNumber;
-    private Address regAddress;
-    private Address corAddress;
-    private boolean marketingConsent;
-    private long[] bankAccs;
+    private String doc_type;
+    private String doc_number;
+    private LocalDate doc_expiry_date;
+    private LocalDate date_of_birth;
+    private String phone_number;
+    private Address reg_address;
+    private Address cor_address;
+    private boolean marketing_consent;
+    private long[] bank_accs;
 
     // Getters and setters
 
@@ -31,11 +31,11 @@ public class Client {
     }
 
     public String getFirstName() {
-        return firstName;
+        return first_name;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public void setFirst_name(String first_name) {
+        this.first_name = first_name;
     }
 
     public String getEmail() {
@@ -47,106 +47,106 @@ public class Client {
     }
 
     public String getLastName() {
-        return lastName;
+        return last_name;
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setLast_name(String last_name) {
+        this.last_name = last_name;
     }
 
     public String getPersonalCode() {
-        return personalCode;
+        return personal_code;
     }
 
-    public void setPersonalCode(String personalCode) {
-        this.personalCode = personalCode;
+    public void setPersonal_code(String personal_code) {
+        this.personal_code = personal_code;
     }
 
     public String getDocType() {
-        return docType;
+        return doc_type;
     }
 
-    public void setDocType(String docType) {
-        this.docType = docType;
+    public void setDoc_type(String doc_type) {
+        this.doc_type = doc_type;
     }
 
     public String getDocNumber() {
-        return docNumber;
+        return doc_number;
     }
 
-    public void setDocNumber(String docNumber) {
-        this.docNumber = docNumber;
+    public void setDoc_number(String doc_number) {
+        this.doc_number = doc_number;
     }
 
     public LocalDate getDocExpiryDate() {
-        return docExpiryDate;
+        return doc_expiry_date;
     }
 
-    public void setDocExpiryDate(LocalDate docExpiryDate) {
-        this.docExpiryDate = docExpiryDate;
+    public void setDoc_expiry_date(LocalDate doc_expiry_date) {
+        this.doc_expiry_date = doc_expiry_date;
     }
 
     public LocalDate getDateOfBirth() {
-        return dateOfBirth;
+        return date_of_birth;
     }
 
-    public void setDateOfBirth(LocalDate dateOfBirth) {
-        this.dateOfBirth = dateOfBirth;
+    public void setDate_of_birth(LocalDate date_of_birth) {
+        this.date_of_birth = date_of_birth;
     }
 
     public String getPhoneNumber() {
-        return phoneNumber;
+        return phone_number;
     }
 
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
+    public void setPhone_number(String phone_number) {
+        this.phone_number = phone_number;
     }
 
     public Address getRegAddress() {
-        return regAddress;
+        return reg_address;
     }
 
-    public void setRegAddress(Address regAddress) {
-        this.regAddress = regAddress;
+    public void setReg_address(Address reg_address) {
+        this.reg_address = reg_address;
     }
 
     public Address getCorAddress() {
-        return corAddress;
+        return cor_address;
     }
 
-    public void setCorAddress(Address corAddress) {
-        this.corAddress = corAddress;
+    public void setCor_address(Address cor_address) {
+        this.cor_address = cor_address;
     }
 
-    public boolean isMarketingConsent() {
-        return marketingConsent;
+    public boolean getMarketingConsent() {
+        return marketing_consent;
     }
 
-    public void setMarketingConsent(boolean marketingConsent) {
-        this.marketingConsent = marketingConsent;
+    public void setMarketing_consent(boolean marketing_consent) {
+        this.marketing_consent = marketing_consent;
     }
 
     public long[] getBankAccs() {
-        return bankAccs;
+        return bank_accs;
     }
 
-    public void setBankAccs(long[] bankAccs) {
-        this.bankAccs = bankAccs;
+    public void setBank_accs(long[] bank_accs) {
+        this.bank_accs = bank_accs;
     }
     public Client(){};
-    public Client(String firstName, String email, String lastName, String personalCode, String docType, String docNumber, LocalDate docExpiryDate, LocalDate dateOfBirth, String phoneNumber, Address regAddress, Address corAddress, boolean marketingConsent, long[] bankAccs) {
-        this.firstName = firstName;
+    public Client(String first_name, String email, String last_name, String personal_code, String doc_type, String doc_number, LocalDate doc_expiry_date, LocalDate date_of_birth, String phone_number, Address reg_address, Address cor_address, boolean marketing_consent, long[] bank_accs) {
+        this.first_name = first_name;
         this.email = email;
-        this.lastName = lastName;
-        this.personalCode = personalCode;
-        this.docType = docType;
-        this.docNumber = docNumber;
-        this.docExpiryDate = docExpiryDate;
-        this.dateOfBirth = dateOfBirth;
-        this.phoneNumber = phoneNumber;
-        this.regAddress = regAddress;
-        this.corAddress = corAddress;
-        this.marketingConsent = marketingConsent;
-        this.bankAccs = bankAccs;
+        this.last_name = last_name;
+        this.personal_code = personal_code;
+        this.doc_type = doc_type;
+        this.doc_number = doc_number;
+        this.doc_expiry_date = doc_expiry_date;
+        this.date_of_birth = date_of_birth;
+        this.phone_number = phone_number;
+        this.reg_address = reg_address;
+        this.cor_address = cor_address;
+        this.marketing_consent = marketing_consent;
+        this.bank_accs = bank_accs;
     }
 }

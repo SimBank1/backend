@@ -4,14 +4,14 @@ import java.time.LocalDate;
 
 public class BankAcc {
     private long id;
-    private String firstName;
-    private String personalCode;
+    private String first_name;
+    private String personal_code;
     private long iban;
     private String currency;
     private long balance;
     private String type;
     private String plan;
-    private LocalDate openingDate;
+    private LocalDate opening_date;
 
     // Getter and Setter for id
     public long getId() {
@@ -22,19 +22,19 @@ public class BankAcc {
     }
 
     // Getter and Setter for firstName
-    public String getFirstName() {
-        return firstName;
+    public String getFirst_name() {
+        return first_name;
     }
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public void setFirst_name(String firstName) {
+        this.first_name = firstName;
     }
 
     // Getter and Setter for personalCode
     public String getPersonalCode() {
-        return personalCode;
+        return personal_code;
     }
-    public void setPersonalCode(String personalCode) {
-        this.personalCode = personalCode;
+    public void setPersonal_code(String personalCode) {
+        this.personal_code = personalCode;
     }
 
     // Getter and Setter for iban
@@ -79,9 +79,12 @@ public class BankAcc {
 
     // Getter and Setter for openingDate
     public LocalDate getOpeningDate() {
-        return openingDate;
+        return opening_date;
     }
-    public void setOpeningDate(LocalDate openingDate) {
-        this.openingDate = openingDate;
+    public void setOpening_date(LocalDate openingDate) {
+        this.opening_date = openingDate;
+    }
+    public String toJSON(){
+        return "{\"first_name\":\""+first_name+"\", \"personal_code\":\""+personal_code+"\", \"iban\":\""+iban+"\", \"currency\":\""+currency+"\", \"balance\":\""+balance+"\", \"type\":\""+type+"\", \"plan\":\""+plan+"\", \"opening_date\":\""+opening_date+"\"}";
     }
 }
