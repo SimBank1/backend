@@ -24,7 +24,7 @@ public class UserService {
 
     // Get all users
     public List<Client> getAllClients() {
-        String sql = "SELECT id, first_name, last_name, email, personal_code, doc_type, doc_number, doc_expiry_date, date_of_birth, phone_number, marketin_consent, reg_address, cor_address, bank_accs FROM clients"; // Adjust your table name and columns
+        String sql = "SELECT id, first_name, last_name, email, personal_code, doc_type, doc_number, doc_expiry_date, date_of_birth, phone_number, marketin_consent, reg_address, cor_address, bank_accs, crm, other_bank_accounts FROM clients"; // Adjust your table name and columns
         return jdbcTemplate.query(sql, new RowMapper<Client>() {
             @Override
             public Client mapRow(java.sql.ResultSet rs, int rowNum) throws java.sql.SQLException {
