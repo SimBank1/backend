@@ -114,9 +114,15 @@ public class UserService {
         }, id);
     }
 
-    public void createClient(Client client) {
+    public Object createClient(Client client){
+        ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
+        HttpSession session = attr.getRequest().getSession(true); // true to create if not exist
+        if(((String) session.getAttribute("username")) == null){
+            return new Err("timeout", true);
+        }
         String sql = "INSERT INTO clients (first_name, last_name, email, personal_code, doc_type, doc_number, doc_expiry_date, date_of_birth, phone_number, marketin_consent, reg_address, cor_address, other_bank_accounts) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?::jsonb, ?::jsonb, ?)";
         jdbcTemplate.update(sql, client.getFirstName(), client.getLastName(), client.getEmail(), client.getPersonalCode(), client.getDocType(), client.getDocNumber(), client.getDocExpiryDate(), client.getDateOfBirth(), client.getPhoneNumber(), client.getMarketingConsent(), client.getRegAddress().toJSON(), client.getCorAddress().toJSON(), client.getOther_bank_accounts());
+        return "";
     }
 
     public List<Employee> getAllEmployees() {
