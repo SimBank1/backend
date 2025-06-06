@@ -30,18 +30,18 @@ public class UserService {
             public Client mapRow(java.sql.ResultSet rs, int rowNum) throws java.sql.SQLException {
                 Client user = new Client();
                 user.setId(rs.getLong("id"));
-                user.setFirstName(rs.getString("first_name"));
-                user.setLastName(rs.getString("last_name"));
+                user.setFirst_name(rs.getString("first_name"));
+                user.setLast_name(rs.getString("last_name"));
                 user.setEmail(rs.getString("email"));
-                user.setPersonalCode(rs.getString("personal_code"));
-                user.setDocType(rs.getString("doc_type"));
-                user.setDocNumber(rs.getString("doc_number"));
+                user.setPersonal_code(rs.getString("personal_code"));
+                user.setDoc_type(rs.getString("doc_type"));
+                user.setDoc_number(rs.getString("doc_number"));
                 java.sql.Date sqlDocExpiryDate = rs.getDate("doc_expiry_date");
-                if(sqlDocExpiryDate != null) user.setDocExpiryDate(sqlDocExpiryDate.toLocalDate());
+                if(sqlDocExpiryDate != null) user.setDoc_expiry_date(sqlDocExpiryDate.toLocalDate());
                 java.sql.Date sqlDateOfBirth = rs.getDate("date_of_birth");
-                if(sqlDateOfBirth != null) user.setDateOfBirth(sqlDateOfBirth.toLocalDate());
-                user.setPhoneNumber(rs.getString("phone_number"));
-                user.setMarketingConsent(rs.getBoolean("marketin_consent"));
+                if(sqlDateOfBirth != null) user.setDate_of_birth(sqlDateOfBirth.toLocalDate());
+                user.setPhone_number(rs.getString("phone_number"));
+                user.setMarketing_consent(rs.getBoolean("marketin_consent"));
                 
                 ObjectMapper objectMapper = new ObjectMapper();
 
@@ -49,13 +49,13 @@ public class UserService {
                     String regAddressJson = rs.getString("reg_address");
                     if (regAddressJson != null) {
                         Address regAddress = objectMapper.readValue(regAddressJson, Address.class);
-                        user.setRegAddress(regAddress);
+                        user.setReg_address(regAddress);
                     }
 
                     String corAddressJson = rs.getString("cor_address");
                     if (corAddressJson != null) {
                         Address corAddress = objectMapper.readValue(corAddressJson, Address.class);
-                        user.setCorAddress(corAddress);
+                        user.setCor_address(corAddress);
                     }
                 } catch (JsonProcessingException e) {
                     // Handle the exception:
@@ -76,18 +76,18 @@ public class UserService {
             public Client mapRow(java.sql.ResultSet rs, int rowNum) throws java.sql.SQLException {
                 Client user = new Client();
                 user.setId(rs.getLong("id"));
-                user.setFirstName(rs.getString("first_name"));
-                user.setLastName(rs.getString("last_name"));
+                user.setFirst_name(rs.getString("first_name"));
+                user.setLast_name(rs.getString("last_name"));
                 user.setEmail(rs.getString("email"));
-                user.setPersonalCode(rs.getString("personal_code"));
-                user.setDocType(rs.getString("doc_type"));
-                user.setDocNumber(rs.getString("doc_number"));
+                user.setPersonal_code(rs.getString("personal_code"));
+                user.setDoc_type(rs.getString("doc_type"));
+                user.setDoc_number(rs.getString("doc_number"));
                 java.sql.Date sqlDocExpiryDate = rs.getDate("doc_expiry_date");
-                if(sqlDocExpiryDate != null) user.setDocExpiryDate(sqlDocExpiryDate.toLocalDate());
+                if(sqlDocExpiryDate != null) user.setDoc_expiry_date(sqlDocExpiryDate.toLocalDate());
                 java.sql.Date sqlDateOfBirth = rs.getDate("date_of_birth");
-                if(sqlDateOfBirth != null) user.setDateOfBirth(sqlDateOfBirth.toLocalDate());
-                user.setPhoneNumber(rs.getString("phone_number"));
-                user.setMarketingConsent(rs.getBoolean("marketin_consent"));
+                if(sqlDateOfBirth != null) user.setDate_of_birth(sqlDateOfBirth.toLocalDate());
+                user.setPhone_number(rs.getString("phone_number"));
+                user.setMarketing_consent(rs.getBoolean("marketin_consent"));
                 
                 ObjectMapper objectMapper = new ObjectMapper();
 
@@ -95,13 +95,13 @@ public class UserService {
                     String regAddressJson = rs.getString("reg_address");
                     if (regAddressJson != null) {
                         Address regAddress = objectMapper.readValue(regAddressJson, Address.class);
-                        user.setRegAddress(regAddress);
+                        user.setReg_address(regAddress);
                     }
 
                     String corAddressJson = rs.getString("cor_address");
                     if (corAddressJson != null) {
                         Address corAddress = objectMapper.readValue(corAddressJson, Address.class);
-                        user.setCorAddress(corAddress);
+                        user.setCor_address(corAddress);
                     }
                 } catch (JsonProcessingException e) {
                     // Handle the exception:
@@ -114,9 +114,9 @@ public class UserService {
         }, id);
     }
 
-    public void createClient(String firstName, String email, String lastName, String personalCode, String docType, String docNumber, LocalDate docExpiryDate, LocalDate dateOfBirth, String phoneNumber, Address regAddress, Address corAddress, boolean marketingConsent, long[] bankAccs) {
-        String sql = "INSERT INTO clients (first_name, last_name, email, personal_code, doc_type, doc_number, doc_expiry_date, date_of_birth, phone_number, marketin_consent, reg_address, cor_address, bank_accs) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        jdbcTemplate.update(sql, firstName, email, lastName, personalCode, docType, docNumber, docExpiryDate, dateOfBirth, phoneNumber, regAddress, corAddress, marketingConsent, bankAccs);
+    public void createClient(Client client) {
+        String sql = "INSERT INTO clients (first_name, last_name, email, personal_code, doc_type, doc_number, doc_expiry_date, date_of_birth, phone_number, marketin_consent, reg_address, cor_address, bank_accs) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?::jsonb, ?::jsonb, ?)";
+        jdbcTemplate.update(sql, client.getFirstName(), client.getLastName(), client.getEmail(), client.getPersonalCode(), client.getDocType(), client.getDocNumber(), client.getDocExpiryDate(), client.getDateOfBirth(), client.getPhoneNumber(), client.getMarketingConsent(), client.getRegAddress().toJSON(), client.getCorAddress().toJSON(), client.getBankAccs());
     }
 
     public List<Employee> getAllEmployees() {
@@ -165,8 +165,8 @@ public class UserService {
         return jdbcTemplate.query(sql, (rs, rowNum) -> {
             BankAcc account = new BankAcc();
             account.setId(rs.getLong("id"));
-            account.setFirstName(rs.getString("first_name"));
-            account.setPersonalCode(rs.getString("personal_code"));
+            account.setFirst_name(rs.getString("first_name"));
+            account.setPersonal_code(rs.getString("personal_code"));
             account.setIban(rs.getLong("iban"));
             account.setCurrency(rs.getString("currency"));
             account.setBalance(rs.getLong("balance"));
@@ -175,7 +175,7 @@ public class UserService {
     
             java.sql.Date sqlDate = rs.getDate("opening_date");
             if (sqlDate != null) {
-                account.setOpeningDate(sqlDate.toLocalDate());
+                account.setOpening_date(sqlDate.toLocalDate());
             }
             return account;
         });
@@ -187,8 +187,8 @@ public class UserService {
         return jdbcTemplate.queryForObject(sql, (rs, rowNum) -> {
             BankAcc account = new BankAcc();
             account.setId(rs.getLong("id"));
-            account.setFirstName(rs.getString("first_name"));
-            account.setPersonalCode(rs.getString("personal_code"));
+            account.setFirst_name(rs.getString("first_name"));
+            account.setPersonal_code(rs.getString("personal_code"));
             account.setIban(rs.getLong("iban"));
             account.setCurrency(rs.getString("currency"));
             account.setBalance(rs.getLong("balance"));
@@ -197,7 +197,7 @@ public class UserService {
     
             java.sql.Date sqlOpeningDate = rs.getDate("opening_date");
             if (sqlOpeningDate != null) {
-                account.setOpeningDate(sqlOpeningDate.toLocalDate());
+                account.setOpening_date(sqlOpeningDate.toLocalDate());
             }
             return account;
         }, id);

@@ -1,7 +1,7 @@
 package simbank.simbank;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class Address {
 
@@ -79,5 +79,8 @@ public class Address {
             e.printStackTrace();
             return "{}";  
         }
+    }
+    public String toJSON(){
+        return "{\"country\":\""+country+"\", \"region\":\""+region+"\", \"cityOrVillage\":\""+cityOrVillage+"\", \"street\":\""+street+"\", \"house\":\""+house+"\", \"apartment\":\""+apartment+"\", \"postalCode\":\""+postalCode+"\"}";
     }
 }
