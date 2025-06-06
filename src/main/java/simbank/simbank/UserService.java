@@ -215,6 +215,20 @@ public class UserService {
         jdbcTemplate.update(sql, crm.toJSON(), crm.getPersonal_code());
         return crm;
     }
+    public Object editCRM(CRM crm){
+        ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
+        HttpSession session = attr.getRequest().getSession(true); // true to create if not exist
+        if(((String) session.getAttribute("username")) == null){
+            return new Err("timeout", true);
+        }
+        String sql = "UPDATE clients\n" + //
+                    "\tSET crm = crm || ?::jsonb\n" + //
+                    "\tWHERE personal_code=?;";
+        jdbcTemplate.update(sql, crm.toJSON(), crm.getPersonal_code());
+        return crm;
+    }
+
+
     public void createbankAcc(String firstName, String personalCode, long iban, String currency, long balance, String type, String plan, LocalDate openingDate) {
         String sql = "INSERT INTO accounts (first_name, personal_code, iban, currency, balance, type, plan, opening_date) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         jdbcTemplate.update(sql, firstName, personalCode, iban, currency, balance, type, plan, openingDate);
